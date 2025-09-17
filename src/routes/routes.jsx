@@ -3,11 +3,12 @@ import FormPage from "../pages/FormPage";
 import LoginPage from "../pages/login/LoginPage";
 import DashboardPage from "../pages/Dashboard/DashboardPage";
 import ProtectedRoute from "./ProtectedRoute";
+import Home from "../pages/home/Home";
 
 export default function AppRoutes({ loggedIn, onLogin, onLogout }) {
   return (
     <Routes>
-      <Route path="/" element={<FormPage />} />
+      <Route path="/" element={<Home />} />
       <Route path="/admin/login" element={<LoginPage onLogin={onLogin} />} />
       <Route
         path="/admin/dashboard"

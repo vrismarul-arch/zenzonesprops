@@ -1,0 +1,119 @@
+.footer {
+  background: #f9fafb; /* soft muted background */
+  color: #1e293b; /* dark slate text */
+  padding: 60px 20px 20px;
+  font-family: "Inter", sans-serif;
+  border-top: 1px solid #e2e8f0;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+.footer-about {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #475569;
+}
+
+.footer-section h3 {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.footer-section a {
+  color: #475569;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+  color: #cab18a; /* subtle blue hover */
+}
+
+.footer-icon {
+  margin-right: 10px;
+  color: #cab18a; /* muted blue accent */
+  flex-shrink: 0;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.footer-socials a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: #e2e8f0;
+  color: #1e293b;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.footer-socials a:hover {
+  background: #cab18a;
+  color: #fff;
+}
+
+.footer-bottom {
+  border-top: 1px solid #e2e8f0;
+  margin-top: 40px;
+  text-align: center;
+  padding-top: 15px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    text-align: center;
+  }
+  .footer-section li {
+    justify-content: left;
+  }
+  .footer-socials {
+    justify-content: center;
+  }
+}
+.footer-logo {
+  display: block;
+  width: 160px;            /* adjust to desired visual weight */
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 12px;
+  filter: none;            /* remove if you want a muted/filter effect */
+}

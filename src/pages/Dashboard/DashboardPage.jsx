@@ -1,14 +1,30 @@
 import { useEffect, useState } from "react";
 import { api } from "../../api/api";
-import { Table, Button, Select, Space, Tabs, Popconfirm, message } from "antd";
+import {
+  Table,
+  Button,
+  Select,
+  Space,
+  Tabs,
+  Popconfirm,
+  Modal,
+  Card,
+  Typography,
+} from "antd";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
+const { Title, Text } = Typography;
 
 export default function DashboardPage({ onLogout }) {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentEntry, setCurrentEntry] = useState(null);
   const [statusUpdating, setStatusUpdating] = useState(false);
+  const [profileVisible, setProfileVisible] = useState(false);
+  const [profile, setProfile] = useState(null);
 
   const navigate = useNavigate();
 
@@ -50,7 +66,58 @@ export default function DashboardPage({ onLogout }) {
     navigate("/admin/login");
   };
 
-  // Table columns
+  const fetchProfile = async () => {
+    const token = localStorage.getItem("adminToken");
+    if (!token) {
+      toast.error("Not authenticated");
+      return;
+    }
+    try {
+      const response = await api.get("/api/admin/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setProfile(response.data);
+      setProfileVisible(true);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to fetch profile");
+    }
+  };
+
+  const exportToExcel = () => {
+    if (entries.length === 0) {
+      toast.error("No data to export");
+      return;
+    }
+
+    const data = entries.map((entry) => ({
+      Name: entry.name,
+      Email: entry.email,
+      Phone: entry.phoneNumber,
+      Date: new Date(entry.dateTime).toLocaleDateString(),
+      Time: new Date(entry.dateTime).toLocaleTimeString(),
+      Status: entry.status,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Entries");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const blob = new Blob([excelBuffer], {
+      type: "application/octet-stream",
+    });
+
+    saveAs(blob, "entries.xlsx");
+    toast.success("Excel file exported");
+  };
+
   const columns = [
     { title: "Name", dataIndex: "name", key: "name" },
     { title: "Email", dataIndex: "email", key: "email" },
@@ -126,14 +193,46 @@ export default function DashboardPage({ onLogout }) {
   }));
 
   return (
-    <div style={{ maxWidth: 1200, margin: "20px auto" }}>
-      <Space direction="vertical" style={{ width: "100%" }}>
-        <h2>Admin Dashboard</h2>
-        <Button type="primary" danger onClick={handleLogout}>
-          Logout
-        </Button>
-        <Tabs defaultActiveKey="Enquiry" items={items} />
-      </Space>
+    <div style={{ maxWidth: 1200, margin: "20px auto", padding: "20px" }}>
+      <Card style={{ borderRadius: 12, boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
+        <Space direction="vertical" style={{ width: "100%" }} size="large">
+          <Title level={2} style={{ textAlign: "center" }}>Admin Dashboard</Title>
+
+          <Space style={{ justifyContent: "center", width: "100%" }} wrap>
+            <Button type="primary" onClick={fetchProfile}>
+              View Profile
+            </Button>
+            <Button type="default" onClick={exportToExcel}>
+              Export to Excel
+            </Button>
+            <Button type="primary" danger onClick={handleLogout}>
+              Logout
+            </Button>
+          </Space>
+
+          <Tabs defaultActiveKey="Enquiry" items={items} />
+        </Space>
+      </Card>
+
+      <Modal
+        visible={profileVisible}
+        title="Admin Profile"
+        onCancel={() => setProfileVisible(false)}
+        footer={[
+          <Button key="close" onClick={() => setProfileVisible(false)}>
+            Close
+          </Button>,
+        ]}
+      >
+        {profile ? (
+          <Card style={{ borderRadius: 12 }}>
+            <Text strong>Name: </Text><Text>{profile.name}</Text><br />
+            <Text strong>Email: </Text><Text>{profile.email}</Text>
+          </Card>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </Modal>
     </div>
   );
 }

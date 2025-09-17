@@ -1,65 +1,99 @@
-// pages/FormPage.jsx
-
 import { useState } from "react";
+import { Form, Input, DatePicker, TimePicker, Button, message, Card } from "antd";
+import dayjs from "dayjs";
 import { api } from "../api/api";
+import "./FormPage.css"; // Import the CSS file for styling
 
 export default function FormPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phoneNumber: "",
-    dateTime: "",
-  });
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onFinish = async (values) => {
+    setLoading(true);
     try {
-      const response = await api.post("/api/entries/add", formData);
-      alert(response.data.message);
-      setFormData({
-        name: "",
-        email: "",
-        phoneNumber: "",
-        dateTime: "",
-      });
+      const date = values.date.format("YYYY-MM-DD");
+      const time = values.time.format("hh:mm A");
+      const dateTime = `${date}T${values.time.format("HH:mm")}`;
+
+      const payload = {
+        name: values.name,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+        dateTime: dateTime,
+      };
+
+      const response = await api.post("/api/entries/add", payload);
+      message.success(response.data.message || "Entry submitted successfully!");
+      form.resetFields();
     } catch (error) {
       console.error("Error submitting entry:", error);
-      alert("Failed to submit entry");
+      message.error("Failed to submit entry.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
-      <h2 style={{ textAlign: "center" }}>Entry Form</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Name:</label><br />
-          <input type="text" name="name" value={formData.name} onChange={handleChange} required style={{ width: "100%", padding: "8px" }} />
+    <Card className="glass-card" title="Book an Appointment">
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinish}
+        className="glass-form"
+      >
+        <div className="form-row">
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: "Please enter your name" }]}
+          >
+            <Input placeholder="Enter your name" />
+          </Form.Item>
+
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Please enter your email" },
+              { type: "email", message: "Please enter a valid email" },
+            ]}
+          >
+            <Input placeholder="Enter your email" />
+          </Form.Item>
         </div>
 
-        <div style={{ marginBottom: "10px" }}>
-          <label>Email:</label><br />
-          <input type="email" name="email" value={formData.email} onChange={handleChange} required style={{ width: "100%", padding: "8px" }} />
+        <div className="form-row">
+          <Form.Item
+            label="Phone Number"
+            name="phoneNumber"
+            rules={[{ required: true, message: "Please enter your phone number" }]}
+          >
+            <Input placeholder="Enter your phone number" />
+          </Form.Item>
+
+          <Form.Item
+            label="Date"
+            name="date"
+            rules={[{ required: true, message: "Please select the date" }]}
+          >
+            <DatePicker style={{ width: "100%" }} />
+          </Form.Item>
         </div>
 
-        <div style={{ marginBottom: "10px" }}>
-          <label>Phone Number:</label><br />
-          <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required style={{ width: "100%", padding: "8px" }} />
-        </div>
+        <Form.Item
+          label="Time"
+          name="time"
+          rules={[{ required: true, message: "Please select the time" }]}
+        >
+          <TimePicker style={{ width: "100%" }} format="h:mm A" use12Hours />
+        </Form.Item>
 
-        <div style={{ marginBottom: "10px" }}>
-          <label>Date & Time:</label><br />
-          <input type="datetime-local" name="dateTime" value={formData.dateTime} onChange={handleChange} required style={{ width: "100%", padding: "8px" }} />
-        </div>
-
-        <button type="submit" style={{ width: "100%", padding: "10px", backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}>
-          Submit
-        </button>
-      </form>
-    </div>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" block loading={loading}>
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </Card>
   );
 }
