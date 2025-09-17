@@ -22,7 +22,7 @@ const RealEstateSection = () => {
             <h3>Take a look at the property // Have a look at the property// here and book your visit soon</h3>
  <div className="buttons">
               <button className="btn-primary" onClick={showModal}>
-                Schedule a Site Visit NOW!
+                Visit NOW!
               </button>
             </div>
             {/* Accordion */}
@@ -76,9 +76,16 @@ const RealEstateSection = () => {
       </section>
 
       {/* Modal Form */}
-      <Modal open={isModalOpen} onCancel={handleCancel} footer={null} closable={true}>
-        <FormPage />
-      </Modal>
+     <Modal
+  open={isModalOpen}
+  onCancel={handleCancel}
+  footer={null}
+  closable={true}
+  className="glass-modal" // ✅ add custom glass class
+  centered
+>
+  <FormPage />
+</Modal>
     </div>
   );
 };

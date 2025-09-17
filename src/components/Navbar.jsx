@@ -12,10 +12,10 @@ export default function Navbar() {
         <img src="logo.png" alt="Zenzones Logo" className="logo-img" />
       </div>
 
-      {/* Right Section */}
+      {/* Right Section
       <div className="navbar-right">
         <button className="contact-btn">Contact us</button>
-      </div>
+      </div> */}
 
       {/* Mobile Menu Button */}
       <button

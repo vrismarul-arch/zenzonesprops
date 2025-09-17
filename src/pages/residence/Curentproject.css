@@ -207,3 +207,26 @@
     max-height: 70vh;
   }
 }
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .curent-card {
+    padding: 0.25rem; /* tighter spacing for small screens */
+  }
+
+  .curent-image {
+    width: 100% !important; /* make image full-width */
+    max-width: 100%;
+    height: auto;
+    max-height: 280px;
+    border-radius: 10px;
+  }
+
+  .slick-slide {
+    display: flex;
+    justify-content: center;
+  }
+
+  .preview-img {
+    max-height: 65vh; /* smaller modal image for mobile */
+  }
+}
