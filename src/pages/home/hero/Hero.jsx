@@ -1,32 +1,53 @@
-  import "./Hero.css";
-  import herobg from "./hero.png";
+import "./Hero.css";
+import herobg from "./hero.png";
+import React, { useState } from "react";
+import { Modal } from "antd";
+import FormPage from "../../FormPage";
 
-  export default function Hero() {
-    return (
-      <section className="hero">
-        {/* Left Content */}
-        <div className="hero-content">
-          <p className="hero-subtitle">Welcome to ZenZones</p>
-          <h1 className="hero-title">
-           Smartest Deal of 2025  <br /> Buy and Earn from Day One!
-          </h1>
-          <p className="hero-text">
-            Home sweet home? More like home sweet income. Why settle for just a house when this 2BHK pays you back every month? A rare deal right at your fingertips
-          </p>
+export default function Hero() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-          {/* Input with Button */}
-        
+  const showModal = () => setIsModalOpen(true);
+  const handleCancel = () => setIsModalOpen(false);
+
+  return (
+    <section className="hero">
+      {/* Left Content */}
+      <div className="hero-content">
+        <p className="hero-subtitle">Welcome to ZenZones</p>
+        <h1 className="hero-title">
+          Own a Fully Furnished 2BHK in Perungudi
+          <br /> Earn Rental Income from Day 1
+        </h1>
+        <p className="hero-text">
+          This 1070 sq.ft, fully furnished 2BHK with a ready PG setup gives you
+          instant monthly cash flow and long-term appreciation.
+        </p>
+
+        {/* Button to trigger modal */}
+        <div className="hero-buttons">
+          <button className="btn-primary" onClick={showModal}>
+            Visit NOW!
+          </button>
         </div>
+      </div>
 
-        {/* Right Side Image */}
-        <div className="hero-image">
-          
-          <img
-            src={herobg}
-            alt="Modern Property"
-            className="hero-house"
-          />
-        </div>
-      </section>
-    );
-  }
+      {/* Right Side Image */}
+      <div className="hero-image">
+        <img src={herobg} alt="Modern Property" className="hero-house" />
+      </div>
+
+      {/* Modal Form */}
+      <Modal
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+        closable={true}
+        className="glass-modal"
+        centered
+      >
+        <FormPage />
+      </Modal>
+    </section>
+  );
+}

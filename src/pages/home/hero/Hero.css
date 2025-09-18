@@ -24,7 +24,7 @@
 }
 
 .hero-title {
-  font-size: 42px;
+  font-size: 32px;
   font-weight: 700;
   color: #111;
   margin-bottom: 20px;
@@ -84,7 +84,7 @@
 
 .hero-house {
   width: 100%;
-  max-width: 520px;
+  max-width: 620px;
   height: 480px;
   border-radius: 12px;
   object-fit: contain;

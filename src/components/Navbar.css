@@ -1,6 +1,6 @@
 /* Main Navbar */
 .navbar {
-  background: #ffe4cb;
+  background: #2c3f54;
   padding: 12px 24px;
   display: flex;
   align-items: center;
@@ -15,7 +15,6 @@
 
 /* Center Logo (inside pill) */
 .navbar-center {
-  background: white;
   border-radius: 999px; /* more round */
   padding: 8px 28px;
   display: flex;

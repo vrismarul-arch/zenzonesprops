@@ -11,30 +11,26 @@ export default function WhyChooseUs() {
       {/* Right Cards */}
       <div className="why-right">
         <div className="why-card">
-          <h3>Luxury facilities</h3>
+          <h3>Your trusted partner</h3>
           <p>
             The advantage of hiring a workspace with us is that it gives you 
             comfortable service and all-around facilities.
           </p>
-          <a href="#">More Info →</a>
         </div>
 
         <div className="why-card">
-          <h3>Affordable Price</h3>
+          <h3>End-to-End Support</h3>
           <p>
-            You can get a workspace of the highest quality at an affordable price 
-            and still enjoy the facilities that are only here.
+            From site visits to documentation, loans, and even rental management, we handle everything for you.
           </p>
-          <a href="#">More Info →</a>
         </div>
 
         <div className="why-card">
-          <h3>Many Choices</h3>
+          <h3>Profitable Investments</h3>
           <p>
-            We provide many unique workspace choices so that you can choose the 
-            workspace to your liking.
+           Properties that combine lifestyle comfort with assured long-term returns.
+
           </p>
-          <a href="#">More Info →</a>
         </div>
       </div>
     </section>
