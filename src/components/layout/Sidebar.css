@@ -1,0 +1,18 @@
+/* Hide drawer button on desktop */
+.sidebar-desktop {
+  display: block;
+}
+
+.sidebar-mobile {
+  display: none;
+}
+
+/* Mobile screens */
+@media (max-width: 992px) {
+  .sidebar-desktop {
+    display: none;
+  }
+  .sidebar-mobile {
+    display: block;
+  }
+}

@@ -1,36 +1,45 @@
-import { useState } from "react";
-import { Menu, X, Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Avatar, Dropdown, Space } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import "./Navbar.css";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const items = [
+    {
+      key: "admin-login",
+      label: "Admin Login",
+      onClick: () => navigate("/admin/login"),
+    },
+    {
+      key: "form",
+      label: "Booking Form",
+      onClick: () => navigate("/form"),
+    },
+  ];
 
   return (
     <nav className="navbar">
-      {/* Logo (center inside pill) */}
-      <div className="navbar-center">
+      {/* Logo left */}
+      <div className="navbar-left">
         <img src="logo.png" alt="Zenzones Logo" className="logo-img" />
       </div>
 
-      {/* Right Section
+      {/* Right side */}
       <div className="navbar-right">
-        <button className="contact-btn">Contact us</button>
-      </div> */}
+        
 
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="mobile-toggle"
-      >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="mobile-menu">
-          <button className="contact-btn">Contact us</button>
-        </div>
-      )}
+        {/* Ant Design Avatar Dropdown */}
+        <Dropdown menu={{ items }} placement="bottomRight" arrow>
+          <Space>
+ <Avatar 
+      size="large" 
+      icon={<UserOutlined />} 
+      style={{ backgroundColor: "#2e4bce", color: "#fff" }} 
+    />          </Space>
+        </Dropdown>
+      </div>
     </nav>
   );
 }

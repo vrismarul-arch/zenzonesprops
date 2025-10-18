@@ -1,0 +1,212 @@
+/* --- Section & Container --- */
+.aboutUsSection {
+    position: relative;
+    width: 100%;
+    min-height: 80vh; /* Adjust height as needed */
+    display: flex;
+    flex-direction: column; /* Stack title and content */
+    align-items: center;
+    padding: 80px 0; /* Vertical padding */
+      background: rgba(255, 255, 255, 0.15);
+
+    /* Exact same gradient background as hero for consistency */
+    background: linear-gradient(135deg, #6e2cb0, #6e2cb0);
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    color: #ffffff;
+}
+
+.aboutUsContainer {
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align title to the left */
+    z-index: 2; /* Ensure content is above any background effects if added later */
+}
+
+/* --- Title --- */
+.aboutUsTitle {
+    font-size: 3.5em; /* Large, bold title */
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 50px; /* Space below title */
+    text-align: left;
+    width: 100%; /* Ensure it spans the container width */
+    text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+/* --- Content Wrapper (for text box and image) --- */
+.aboutContentWrapper {
+    display: flex;
+    align-items: center; /* Vertically align items in the center */
+    gap: 40px; /* Space between text box and image */
+    width: 100%;
+}
+
+/* --- About Text Box (Glassmorphism) --- */
+.aboutTextBox {
+    flex: 1.5; /* Takes more space than the image */
+    background: rgba(255, 255, 255, 0.15); /* Light, translucent background */
+    backdrop-filter: blur(18px); /* Glassmorphism blur */
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 20px;
+    padding: 50px 60px; /* Inner padding */
+    box-shadow: 0 4px 10px rgba(255,255,255,0.05) inset, 
+                0 10px 40px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pushes stats to bottom */
+    min-height: 400px; /* Minimum height for better appearance */
+}
+
+.aboutDescription {
+    font-size: 1.1em;
+    line-height: 1.7;
+    margin-bottom: 30px; /* Space before stats */
+    color: #e0e0e0;
+}
+
+/* --- Stats Row --- */
+.statsRow {
+    display: flex;
+    gap: 60px; /* Space between stat items */
+    margin-top: auto; /* Pushes stats to the bottom if content is short */
+    padding-top: 20px; /* Padding above stats */
+    border-top: 1px solid rgba(255,255,255,0.1); /* Subtle separator line */
+}
+
+.statItem {
+    text-align: left;
+}
+
+.statNumber {
+    font-size: 2.5em;
+    font-weight: 800;
+    color: #ffffff; /* Accent color for numbers */
+    display: block; /* Each part on its own line */
+    margin-bottom: 5px;
+}
+
+.statLabel {
+    font-size: 1em;
+    font-weight: 500;
+    color: #e0e0e0;
+}
+
+/* --- About Image Container --- */
+.aboutImageContainer {
+    flex: 1; /* Takes less space than the text box */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* No explicit glassmorphism for image, but a soft container look */
+    background: rgba(255, 255, 255, 0.08); /* Subtle background for the image box */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 20px;
+    overflow: hidden; /* Ensures image corners match container */
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    padding: 20px; /* Internal padding for the image */
+    min-width: 350px; /* Ensure image container doesn't get too small */
+}
+
+.aboutImage {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px; /* Slight round on the image itself */
+}
+
+/* --- Background Pattern (Right side lines) --- */
+.aboutUsSection::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 250px; /* Width of the pattern */
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            45deg, 
+            rgba(255,255,255,0.05), /* Light white lines */
+            rgba(255,255,255,0.05) 5px, /* Line thickness */
+            transparent 5px, 
+            transparent 20px /* Space between lines */
+        );
+    z-index: 1; /* Behind content */
+    pointer-events: none; /* Non-interactive */
+}
+
+
+/* --- Responsiveness --- */
+@media (max-width: 900px) {
+    .aboutUsTitle {
+        font-size: 2.5em;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .aboutContentWrapper {
+        flex-direction: column; /* Stack text and image vertically */
+        gap: 30px;
+    }
+
+    .aboutTextBox {
+        width: 100%;
+        padding: 40px 30px;
+        min-height: auto; /* Allow height to adjust */
+    }
+    
+    .aboutDescription {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+
+    .statsRow {
+        flex-direction: column; /* Stack stats vertically on small screens */
+        gap: 20px;
+        align-items: center; /* Center align stats */
+        width: 100%;
+        border-top: none; /* Remove line for vertical layout */
+        padding-top: 0;
+    }
+
+    .statItem {
+        text-align: center;
+    }
+
+    .statNumber {
+        font-size: 2em;
+    }
+
+    .aboutImageContainer {
+        width: 90%; /* Adjust width for mobile */
+        min-width: unset;
+        padding: 15px;
+    }
+
+    .aboutUsSection::after {
+        width: 150px; /* Smaller pattern on mobile */
+        background: 
+            repeating-linear-gradient(
+                45deg, 
+                rgba(255,255,255,0.03), 
+                rgba(255,255,255,0.03) 3px, 
+                transparent 3px, 
+                transparent 15px
+            );
+    }
+}
+
+@media (max-width: 500px) {
+    .aboutUsSection {
+        padding: 60px 0;
+    }
+    .aboutUsTitle {
+        font-size: 2em;
+    }
+    .aboutTextBox {
+        padding: 30px 20px;
+    }
+}

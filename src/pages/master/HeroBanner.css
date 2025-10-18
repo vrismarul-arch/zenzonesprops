@@ -1,0 +1,190 @@
+/* --- Section & Container --- */
+.heroSection {
+  position: relative;
+  width: 100%;
+  min-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #2b113e, #6e2cb0);
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  padding: 250px 0;
+}
+
+.heroContainer {
+  position: relative;
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+}
+
+/* --- Background Spheres (Glowing, blurred effect) --- */
+.bgElements .sphere {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(180, 100, 255, 0.7);
+  filter: blur(45px);
+  animation: float 8s ease-in-out infinite;
+  z-index: 1;
+}
+
+.sphere1 {
+  width: 150px;
+  height: 150px;
+  top: 15%;
+  left: 10%;
+}
+
+.sphere2 {
+  width: 200px;
+  height: 200px;
+  top: 55%;
+  right: 18%;
+}
+
+.sphere3 {
+  width: 100px;
+  height: 100px;
+  bottom: 25%;
+  left: 45%;
+  opacity: 0.6;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-25px) scale(1.05); }
+}
+
+/* --- Camera Images --- */
+.cameraLeft, .cameraRight {
+  position: absolute;
+  width: 350px;
+  height: auto;
+  object-fit: contain;
+  z-index: 4;
+}
+
+.cameraLeft {
+  left: -150px;
+  bottom: -220px;
+  transform: rotateY(15deg) rotate(5deg);
+}
+
+.cameraRight {
+  right: -150px;
+  top: 20px;
+  transform: rotate(30deg);
+}
+
+/* --- Flow Lines (transparent PNG/SVG) --- */
+.flowLines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.flowLines .flowImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.8;
+}
+
+/* --- Hero Content Glass Box --- */
+.heroContentBox.glassBox {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 20px;
+  padding: 60px 80px;
+  text-align: left;
+  box-shadow: 
+    0 4px 10px rgba(255, 255, 255, 0.05) inset,
+    0 10px 40px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  z-index: 5;
+  max-width:100%;
+  margin-right: auto;
+}
+
+.heroTitle {
+  font-size: 3em;
+  font-weight: 800;
+  margin-bottom: 25px;
+  line-height: 1.1;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.heroDescription {
+  font-size: 1.2em;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  background: #ffffff;
+  color: #6e2cb0;
+  font-weight: 700;
+  font-size: 1.1em;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.ctaButton:hover {
+  background: #e6e6e6;
+  color: #2b113e;
+  transform: translateY(-2px);
+}
+
+/* --- Responsiveness --- */
+@media (max-width: 900px) {
+  .heroSection {
+    min-height: 70vh;
+    padding: 120px 0 ;
+  }
+
+  .heroContainer {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .cameraLeft, .cameraRight {
+    display: none;
+  }
+.heroContentBox.glassBox {
+  padding: 30px 20px;
+  }
+  .glassBox {
+    max-width: 90%;
+    padding: 40px 30px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .heroTitle {
+    font-size: 2em;
+  }
+
+  .heroDescription {
+    font-size: 1em;
+  }
+
+  .sphere1, .sphere2, .sphere3 {
+    opacity: 0.5;
+    filter: blur(25px);
+  }
+}

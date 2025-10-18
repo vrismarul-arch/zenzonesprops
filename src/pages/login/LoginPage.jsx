@@ -15,7 +15,7 @@ export default function LoginPage({ onLogin }) {
       toast.success(response.data.message);
       localStorage.setItem("adminToken", response.data.token);
       onLogin(); // set loggedIn=true
-      navigate("/admin/dashboard");
+      navigate("/admin/leads");
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || "Login failed");

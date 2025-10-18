@@ -1,0 +1,105 @@
+/* --- Custom Properties --- */
+:root {
+    --primary-purple: #4B0082; /* Deep Violet / Indigo tone */
+    --card-bg-opacity: rgba(255, 255, 255, 0.05); /* 5% white transparency */
+    --text-white: #ffffff;
+    --text-light-gray: #d1d5db; /* light gray text */
+    --gap-spacing: 1.5rem; /* gap between cards */
+}
+
+/* --- 1. Main Section --- */
+.security-section {
+    padding: 5rem 1rem;
+    background-color: var(--primary-purple);
+}
+
+.content-container {
+    max-width: 80rem;
+    margin: 0 auto;
+}
+
+/* --- 2. Grid Layout --- */
+.services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gap-spacing);
+}
+
+@media (min-width: 768px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .services-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* --- 3. Individual Service Card --- */
+.service-card {
+    position: relative;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    background-color: var(--card-bg-opacity);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+
+    /* Frosted glass effect */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 35px 60px -15px rgba(0,0,0,0.4);
+}
+
+/* --- 4. Image / Background Area --- */
+.image-area {
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover .image-area {
+    transform: scale(1.05); /* subtle zoom on hover */
+}
+
+/* Placeholder text styling */
+.image-placeholder-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+
+/* --- 5. Text Content --- */
+.text-content-area {
+    margin-top: auto;
+}
+
+.service-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-white);
+    margin-bottom: 0.5rem;
+    line-height: 1.375;
+}
+
+.service-description {
+    font-size: 0.875rem;
+    color: var(--text-light-gray);
+    line-height: 1.5;
+}

@@ -1,108 +1,188 @@
 import { useState } from "react";
-import { Form, Input, DatePicker, TimePicker, Button, Card } from "antd";
-import toast, { Toaster } from "react-hot-toast"; // ✅ Hot Toast
+import { useNavigate } from "react-router-dom";
+import { Form, Input, Button, Card, Upload, Select, Checkbox, Row, Col } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import { api } from "../api/api";
-import "./FormPage.css"; // Custom styling
+import "./FormPage.css";
+import NotificationCard from "../components/NotificationCard";
 
-export default function FormPage() {
+const { Option } = Select;
+
+export default function FormPageMobile({ onSuccess }) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState(null);
+  const navigate = useNavigate();
 
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const date = values.date.format("YYYY-MM-DD");
-      const time = values.time.format("hh:mm A");
-      const dateTime = `${date}T${values.time.format("HH:mm")}`;
+      const formData = new FormData();
 
-      const payload = {
-        name: values.name,
-        email: values.email,
-        phoneNumber: values.phoneNumber,
-        dateTime,
-      };
+      // Required fields
+      formData.append("name", values.name);
+      formData.append("phoneNumber", values.phoneNumber);
+      formData.append("email", values.email);
+      formData.append("companyName", values.companyName);
 
-      const response = await api.post("/api/entries/add", payload);
+      // Requirement type (send only if selected)
+      if (values.requirementType) {
+        formData.append("requirementType", values.requirementType);
+      }
 
-      // ✅ Success message
-      toast.success(
-        response.data.message ||
-          "✅ Your form has been submitted. Our team will contact you soon. Thank you!",
-        { duration: 5000 } // stays 5 seconds
-      );
+      // Requirement details (optional)
+      formData.append("requirement", values.requirement || "");
 
+      // Brands (always send as array, even if empty)
+      formData.append("brands", JSON.stringify(values.brands || []));
+
+      // Images (optional)
+      if (values.images && values.images.length > 0) {
+        values.images.forEach((fileWrapper) => {
+          formData.append("images", fileWrapper.originFileObj);
+        });
+      }
+
+      // Submit to backend
+      const response = await api.post("/api/entries/add", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      // Reset form
       form.resetFields();
+
+      // Show success notification
+      setNotification({
+        status: "success",
+        title: "Submitted Successfully!",
+        message: response.data.message,
+        buttonText: "Go Home",
+        onClick: () => {
+          setNotification(null);
+          if (onSuccess) onSuccess();
+          navigate("/");
+        },
+      });
     } catch (error) {
-      console.error("Error submitting entry:", error);
-      toast.error("❌ Failed to submit entry. Please try again.", {
-        duration: 5000,
+      console.error(error);
+      setNotification({
+        status: "error",
+        title: "Submission Failed",
+        message: "Please try again later.",
+        buttonText: "Retry",
+        onClick: () => setNotification(null),
       });
     } finally {
       setLoading(false);
     }
   };
 
+  if (notification) {
+    return <NotificationCard {...notification} />;
+  }
+
   return (
-    <div className="form-container">
-      <Toaster position="top-right" reverseOrder={false} /> {/* ✅ Toast UI */}
-      <Card className="glass-card" title="Book an Appointment">
+    <div className="mobile-form-container">
+      <Card className="glass-card-mobile">
+        <h2 className="form-title-mobile">Submit Your Requirement</h2>
+        <p>Fill the details and upload images (optional)</p>
+
         <Form
           form={form}
           layout="vertical"
           onFinish={onFinish}
-          className="glass-form"
+          className="glass-form-mobile"
         >
-          <div className="form-row">
-            <Form.Item
-              label="Name"
-              name="name"
-              rules={[{ required: true, message: "Please enter your name" }]}
-            >
-              <Input placeholder="Enter your name" />
-            </Form.Item>
+          <Row gutter={16}>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                label="Name"
+                name="name"
+                rules={[{ required: true, message: "Enter your name" }]}
+              >
+                <Input placeholder="Your full name" />
+              </Form.Item>
+            </Col>
 
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                { required: true, message: "Please enter your email" },
-                { type: "email", message: "Please enter a valid email" },
-              ]}
-            >
-              <Input placeholder="Enter your email" />
-            </Form.Item>
-          </div>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                label="Phone Number"
+                name="phoneNumber"
+                rules={[{ required: true, message: "Enter phone number" }]}
+              >
+                <Input placeholder="10-digit phone number" />
+              </Form.Item>
+            </Col>
+          </Row>
 
-          <div className="form-row">
-            <Form.Item
-              label="Phone Number"
-              name="phoneNumber"
-              rules={[
-                { required: true, message: "Please enter your phone number" },
-              ]}
-            >
-              <Input placeholder="Enter your phone number" />
-            </Form.Item>
+          <Row gutter={16}>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[{ type: "email", message: "Enter a valid email" }]}
+              >
+                <Input placeholder="Your email address" />
+              </Form.Item>
+            </Col>
 
-            <Form.Item
-              label="Date"
-              name="date"
-              rules={[{ required: true, message: "Please select the date" }]}
-            >
-              <DatePicker style={{ width: "100%" }} />
-            </Form.Item>
-          </div>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                label="Company Name"
+                name="companyName"
+                rules={[{ required: true, message: "Enter company name" }]}
+              >
+                <Input placeholder="Your company name" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item label="Requirement Product" name="requirementType">
+            <Select placeholder="Select requirement type" allowClear>
+              <Option value="Boom Barrier">Boom Barrier</Option>
+              <Option value="Swing Barrier">Swing Barrier</Option>
+              <Option value="Flap Barrier">Flap Barrier</Option>
+              <Option value="Turnstile">Turnstile (Full/Half Height)</Option>
+              <Option value="Baggage Scanner">Baggage Scanner</Option>
+              <Option value="Metal Detector">Walk-through Metal Detector</Option>
+              <Option value="Bollard System">Bollard System</Option>
+              <Option value="Home Automation">Home Automation</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item label="Preferred Brands" name="brands">
+            <Checkbox.Group>
+              <Checkbox value="Essl">Essl</Checkbox>
+              <Checkbox value="Came">Came</Checkbox>
+              <Checkbox value="ZKT">ZKT</Checkbox>
+              <Checkbox value="Hikvision">Hikvision</Checkbox>
+              <Checkbox value="Honeywell">Honeywell</Checkbox>
+            </Checkbox.Group>
+          </Form.Item>
+
+          <Form.Item label="Requirement Details" name="requirement">
+            <Input.TextArea rows={3} placeholder="Describe your requirement" />
+          </Form.Item>
 
           <Form.Item
-            label="Time"
-            name="time"
-            rules={[{ required: true, message: "Please select the time" }]}
+            label="Upload Images"
+            name="images"
+            valuePropName="fileList"
+            getValueFromEvent={(e) => e.fileList}
           >
-            <TimePicker style={{ width: "100%" }} format="h:mm A" use12Hours />
+            <Upload beforeUpload={() => false} multiple maxCount={5}>
+              <Button icon={<UploadOutlined />}>Select up to 5 images</Button>
+            </Upload>
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block loading={loading}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              block
+              size="large"
+              loading={loading}
+            >
               Submit
             </Button>
           </Form.Item>

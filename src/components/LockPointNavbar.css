@@ -1,0 +1,175 @@
+/* --- 🎨 Design Tokens --- */
+.header {
+  --primary-purple: #451c6b; /* vivid purple */
+  --text-color: #ffffff;
+  --link-hover-color: #d1b8ff;
+  --font-family: 'Inter', sans-serif;
+}
+
+/* --- Header & Glass Effect --- */
+.header {
+  width: 100%;
+  padding: 10px 0;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  font-family: var(--font-family);
+}
+
+.glassEffect {
+  /* Pure purple with transparency */
+  background: #481d6f; /* pure purple + alpha */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- Logo --- */
+.logo {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: var(--text-color);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+/* --- Navigation --- */
+.nav {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  transition: max-height 0.3s ease;
+}
+
+.navList {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.navLinksGlass {
+  background: rgba(255, 255, 255, 0.1); /* slight transparency for pill effect */
+  border-radius: 25px;
+  padding: 20px 20px;
+  display: flex;
+}
+
+.navItem {
+  margin: 0 15px;
+}
+
+.navLink {
+  color: var(--text-color);
+  text-decoration: none;
+font-weight: 600;
+  font-size: 19px;
+  padding: 5px 0;
+  transition: color 0.3s ease;
+}
+
+.navLink:hover {
+  color: var(--link-hover-color);
+}
+
+/* --- Contact Section --- */
+.contactNumber {
+  color: var(--text-color);
+  font-size: 1em;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 15px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  white-space: nowrap;
+}
+
+.contactNumber:hover {
+  background-color: var(--text-color);
+  color: var(--primary-purple);
+}
+
+.phoneIcon {
+  margin-right: 5px;
+}
+
+/* --- Hamburger Menu --- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-color);
+  transition: 0.3s;
+}
+
+.hamburger.active .bar:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 900px) {
+  .container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding-bottom: 10px;
+  }
+
+  .logo {
+    margin-bottom: 10px;
+  }
+
+  .nav {
+    max-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    width: 100%;
+    transition: max-height 0.3s ease;
+  }
+
+  .nav.navActive {
+    max-height: 300px;
+  }
+
+  .navList {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navItem {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .contact {
+    order: 2;
+    margin-bottom: 10px;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
