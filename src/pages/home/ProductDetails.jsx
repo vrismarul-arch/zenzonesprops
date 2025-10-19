@@ -20,7 +20,7 @@ const ProductDetails = () => {
   const handleQuote = () => {
     // You probably want to open external URL
     window.open(
-      "/enquiryform",
+      "https://n8n-en7m.onrender.com/form/809256a5-0f50-47e8-930c-6ebe6ce2981e",
       "_blank"
     );
   };

@@ -18,7 +18,7 @@
 
 .glassEffect {
   /* Pure purple with transparency */
-  background: #481d6f; /* pure purple + alpha */
+  background: #ffffffff; /* pure purple + alpha */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }

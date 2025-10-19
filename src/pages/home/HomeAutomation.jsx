@@ -22,7 +22,7 @@ const BaggageScanner = () => {
   };
 
   const handleQuote = () => {
-    window.open("/enquiryform", "_blank");
+    window.open("https://n8n-en7m.onrender.com/form/809256a5-0f50-47e8-930c-6ebe6ce2981e", "_blank");
   };
 
   // ✅ Brand data
